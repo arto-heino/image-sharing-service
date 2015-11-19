@@ -5,6 +5,7 @@
  */
 package imageSharing;
 
+import imageSharingDatabase.Images;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -13,6 +14,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Date;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -29,6 +33,9 @@ import javax.servlet.http.Part;
 @MultipartConfig
 public class uploadImg extends HttpServlet {
 
+    EntityManagerFactory emf;
+    EntityManager em;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,62 +46,83 @@ public class uploadImg extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request,
-        HttpServletResponse response)
-        throws ServletException, IOException {
-    response.setContentType("text/html;charset=UTF-8");
-    
-    final String path = "/home/aheino/images/";
-    final Part filePart = request.getPart("file");
-    final String fileName = getFileName(filePart);
-    final String currentTime = System.currentTimeMillis() + "_";
+            HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
 
-    OutputStream out = null;
-    InputStream filecontent = null;
-    final PrintWriter writer = response.getWriter();
+        final String path = "/home/aheino/images/";
+        final Part filePart = request.getPart("file");
+        final String fileName = getFileName(filePart);
+        final String currentTime = System.currentTimeMillis() + "_";
 
-    try {
-        out = new FileOutputStream(new File(path + File.separator
-                + currentTime + fileName));
-        filecontent = filePart.getInputStream();
+        OutputStream out = null;
+        InputStream filecontent = null;
+        final PrintWriter writer = response.getWriter();
 
-        int read = 0;
-        final byte[] bytes = new byte[1024];
+        try {
+            out = new FileOutputStream(new File(path + File.separator
+                    + currentTime + fileName));
+            filecontent = filePart.getInputStream();
 
-        while ((read = filecontent.read(bytes)) != -1) {
-            out.write(bytes, 0, read);
-        }
-        writer.println("New file " + fileName + " created at " + path);
+            int read = 0;
+            final byte[] bytes = new byte[1024];
+
+            while ((read = filecontent.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+            writer.println("New file " + fileName + " created at " + path);
+            
+        emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
+        em = emf.createEntityManager();
+
+        em.getTransaction().begin();
         
-    } catch (FileNotFoundException fne) {
-        writer.println("You either did not specify a file to upload or are "
-                + "trying to upload a file to a protected or nonexistent "
-                + "location.");
-        writer.println("<br/> ERROR: " + fne.getMessage());
+        int imageSize = bytes.length;
+        
+        Date date = new Date();
 
-    } finally {
-        if (out != null) {
-            out.close();
-        }
-        if (filecontent != null) {
-            filecontent.close();
-        }
-        if (writer != null) {
-            writer.close();
+        Images image = new Images();
+        image.setPath(path+currentTime+fileName);
+        image.setFileSize(imageSize);
+        image.setUploadDate(date);
+        image.setFileName(fileName);
+
+        em.persist(image);
+
+        em.getTransaction().commit();
+
+        } catch (FileNotFoundException fne) {
+            writer.println("You either did not specify a file to upload or are "
+                    + "trying to upload a file to a protected or nonexistent "
+                    + "location.");
+            writer.println("<br/> ERROR: " + fne.getMessage());
+
+        } finally {
+            em.close();
+            emf.close();
+            if (out != null) {
+                out.close();
+            }
+            if (filecontent != null) {
+                filecontent.close();
+            }
+            if (writer != null) {
+                writer.close();
+            }
         }
     }
-}
 
-private String getFileName(final Part part) {
-    final String partHeader = part.getHeader("content-disposition");
-    
-    for (String content : part.getHeader("content-disposition").split(";")) {
-        if (content.trim().startsWith("filename")) {
-            return content.substring(
-                    content.indexOf('=') + 1).trim().replace("\"", "");
+    private String getFileName(final Part part) {
+        final String partHeader = part.getHeader("content-disposition");
+
+        for (String content : part.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(
+                        content.indexOf('=') + 1).trim().replace("\"", "");
+            }
         }
+        return null;
     }
-    return null;
-}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

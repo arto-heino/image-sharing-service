@@ -5,12 +5,21 @@ package imageSharing;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import imageSharingDatabase.Images;
+import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.List;
+import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Artsi
  */
-@WebServlet(urlPatterns = {"/images/*"})
+@WebServlet(urlPatterns = {"/images/"})
 public class gallery extends HttpServlet {
 
     EntityManagerFactory emf;
@@ -39,32 +48,28 @@ public class gallery extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet gallery</title>");
-            out.println("</head>");
-            out.println("<body>");
 
             try {
                 emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
                 em = emf.createEntityManager();
-                for (Users u : (List<Users>) em.createNamedQuery("Users.findAll").getResultList()) {
-                    out.println("<h2>" + u.getUsername() + "</h2>");
+                
+                for (Images i : (List<Images>) em.createNamedQuery("Images.findAll").getResultList()) {
+                
+		File f = new File(i.getPath());
+		BufferedImage bi = ImageIO.read(f);
+		OutputStream out2 = response.getOutputStream();
+                response.setContentType("image/png");
+		ImageIO.write(bi, "png", out2);  
                 }
+
             } catch (Exception e) {
-                out.println("BOOM : " + e);
             } finally {
                 em.close();
                 emf.close();
             }
 
-            out.println("</body>");
-            out.println("</html>");
         }
-    }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
