@@ -8,8 +8,6 @@ package imageSharing;
 import imageSharingDatabase.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.System.out;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
