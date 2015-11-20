@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Artsi
  */
-@WebServlet(urlPatterns = {"/images/"})
+@WebServlet(urlPatterns = {"/showImg"})
 public class gallery extends HttpServlet {
 
     EntityManagerFactory emf;
@@ -42,19 +42,19 @@ public class gallery extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
 
             try {
                 emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
                 em = emf.createEntityManager();
-                
+
                 for (Images i : (List<Images>) em.createNamedQuery("Images.findAll").getResultList()) {
                 
 		File f = new File(i.getPath());
 		BufferedImage bi = ImageIO.read(f);
-		OutputStream out2 = response.getOutputStream();
-                response.setContentType("image/png");
-		ImageIO.write(bi, "png", out2);  
+                    try (OutputStream out2 = response.getOutputStream()) {
+                        response.setContentType("image/png");
+                        ImageIO.write(bi, "png", out2);
+                    }
                 }
 
             } catch (Exception e) {
