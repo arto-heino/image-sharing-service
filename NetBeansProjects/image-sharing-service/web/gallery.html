@@ -26,6 +26,31 @@
 
     <body>
 
+        <script>
+            var xmlhttp = new XMLHttpRequest();
+                    var url = "http://127.0.0.1:8080/image-sharing-service/showImg";
+                    xmlhttp.onreadystatechange = function() {
+                    if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                    myFunction(xmlhttp.responseText);
+                    }
+                    }
+            xmlhttp.open("GET", url, true);
+                    xmlhttp.send();
+                    function myFunction(response) {
+                    var arr = JSON.parse(response);
+                            var i;
+                            var out = "<div class=\"row\">";
+                            for (i = 0; i < arr.length; i++) { 
+                            out += "<div class=\"col-xs-6 col-md-3\"><a href=\"#\" class=\"thumbnail\">";
+                            out += "<img src='images/" + arr[i];
+                            out += "' />";
+                            out += "</a></div>";
+                            }
+                            out += "</div>";
+                            document.getElementById("images").innerHTML = out;
+                            }
+        </script>
+
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -39,8 +64,8 @@
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="/gallery">Images</a></li>
+                        <li><a href="../index.html">Home</a></li>
+                        <li class="active"><a href="/gallery.html">Images</a></li>
                         <li><a href="#myPictures">My pictures</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -53,61 +78,7 @@
 
         <div class="container">
 
-            <div class="row">
-                <div class="col-xs-6 col-md-3">
-                    <a href="#" class="thumbnail">
-                        <img src="showImg" alt="Kuva" />
-                    </a>
-                </div>
-
-                <div class="col-xs-6 col-md-3">
-                    <a href="#" class="thumbnail">
-                        <img src="#" alt="Some picture">
-                    </a>
-                </div>
-
-                <div class="col-xs-6 col-md-3">
-                    <a href="#" class="thumbnail">
-                        <img src="#" alt="Some picture 2">
-                    </a>
-                </div>
-                
-                <div class="col-xs-6 col-md-3">
-                    <a href="#" class="thumbnail">
-                        <img src="#" alt="Some picture 2">
-                    </a>
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-xs-6 col-md-3">
-                    <a href="#" class="thumbnail">
-                        <img src="#" alt="Some picture 2">
-                    </a>
-                </div>
-
-                <div class="col-xs-6 col-md-3">
-                    <a href="#" class="thumbnail">
-                        <img src="#" alt="Some picture 2">
-                    </a>
-                </div>
-
-                <div class="col-xs-6 col-md-3">
-                    <a href="#" class="thumbnail">
-                        <img src="#" alt="Some picture 2">
-                    </a>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-6 col-md-3">
-                    <a href="#" class="thumbnail">
-                        <img src="#" alt="Some picture 2">
-                    </a>
-                </div>
-            </div>
-
+            <div id="images"> </div>
 
         </div><!-- /.container -->
 

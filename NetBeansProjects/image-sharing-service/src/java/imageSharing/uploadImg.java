@@ -82,7 +82,7 @@ public class uploadImg extends HttpServlet {
         Date date = new Date();
 
         Images image = new Images();
-        image.setPath(path+currentTime+fileName);
+        image.setPath(currentTime+fileName);
         image.setFileSize(imageSize);
         image.setUploadDate(date);
         image.setFileName(fileName);

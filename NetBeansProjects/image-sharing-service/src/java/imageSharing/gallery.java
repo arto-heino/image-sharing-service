@@ -10,8 +10,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import static java.lang.System.console;
+import static java.lang.System.out;
 import java.util.List;
 import javax.imageio.ImageIO;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonBuilderFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -42,29 +49,34 @@ public class gallery extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("application/json;charset=UTF-8");
+        PrintWriter out = response.getWriter();
 
-            try {
-                emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
-                em = emf.createEntityManager();
+        try {
 
-                for (Images i : (List<Images>) em.createNamedQuery("Images.findAll").getResultList()) {
-                
-		File f = new File(i.getPath());
-		BufferedImage bi = ImageIO.read(f);
-                    try (OutputStream out2 = response.getOutputStream()) {
-                        response.setContentType("image/png");
-                        ImageIO.write(bi, "png", out2);
-                    }
-                }
+            emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
+            em = emf.createEntityManager();
 
-            } catch (Exception e) {
-            } finally {
-                em.close();
-                emf.close();
+            JsonArrayBuilder builder = Json.createArrayBuilder();
+
+            for (Images i : (List<Images>) em.createNamedQuery("Images.findAll").getResultList()) {
+                String imagePath = i.getPath();
+                builder.add(imagePath);
             }
 
+            JsonArray arr = builder.build();
+
+            out.println(arr);
+            
+        } catch (Exception e) {
+            out.println(e);
+        } finally {
+            em.close();
+            emf.close();
+            out.close();
         }
-    
+
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
