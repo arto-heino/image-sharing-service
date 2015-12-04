@@ -60,8 +60,10 @@ function ReadImage(id) {
         out += "</div></div>";
         out += "<div class=\"row\">";
         out += "<div class=\"col-md-10\">Comment:";
-        out += "<form class=\"form-horizontal\" id=\"sendComment\"><div class=\"form-group\"><label class=\"sr-only\" for=\"comment\">Comment</label><input type=\"text\" class=\"form-control\" id=\"comment\"></div><button type=\"submit\" class=\"btn btn-default\">comment</button></form>";
+        out += "<form class=\"form-horizontal\" action=\"http://127.0.0.1:8080/image-sharing-service/writeComment/\" id=\"commentForm\"><input type=\"text\" class=\"form-control\" name=\"comment\" value=\"Write your comment here.\"><input type=\"hidden\" value=\""+arr[0].id+"\" name=\"id\"></form>";
+        out += "<button type=\"button\" onclick=\"write_comment();\" class=\"btn btn-primary\">comment</button>";
         out += "</div>";
+        write_comment();
         document.getElementById("images").innerHTML = out;
     }
 }
@@ -79,5 +81,22 @@ function show_comments(id) {
          };
          
 function write_comment(){
-    $.post( "comment", $( "#sendComment" ).serialize() );
+    $("#commentForm").submit(function(e)
+{
+    var postData = $(this).serialize();
+    var formURL = $(this).attr("action");
+    var id = jQuery('input[name="id"]').val();
+    $.ajax(
+    {
+        url : formURL,
+        type: "POST",
+        data : postData,
+        success:function(data)
+        {
+            show_comments(id);
+        }
+    });
+    e.preventDefault(); //STOP default action
+});
+$("#commentForm").submit();
 };
