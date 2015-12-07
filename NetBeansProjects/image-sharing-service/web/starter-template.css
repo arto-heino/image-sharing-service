@@ -28,3 +28,12 @@ body {
     color: #f9f2f4;
     list-style-type: none;
 }
+
+#regForm {
+    text-align: left;
+}
+
+#regBtn {
+    text-align: center;
+}
+
