@@ -51,7 +51,6 @@ function ReadImage(id) {
     xmlhttp.send();
     function myFunction(response) {
         var arr = JSON.parse(response);
-        var i;
         var out = "";
         out += "<div class=\"col-md-10\">";
         out += "<img class=\"img-responsive center-block\" src='images/" + arr[0].path;
