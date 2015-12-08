@@ -4,19 +4,37 @@
  * and open the template in the editor.
  */
 
-var data = new FormData();
-jQuery.each(jQuery('#file')[0].files, function(i, file) {
-    data.append('file-'+i, file);
-});
+function upload_image(){
+    $("#upload").submit(function(e){
+        var fileSelect = document.getElementById('file');
+        var files = fileSelect.files;
+        var formData = new FormData();
+        
+        for (var i = 0; i < files.length; i++) {
+  var file = files[i];
+
+  // Check the file type.
+  if (!file.type.match('image.*')) {
+    continue;
+  }
+
+  // Add the file to the request.
+  formData.append('file', file, file.name);
+}
+        
 
 jQuery.ajax({
-    url: 'uploadImg',
-    data: data,
+    url: $(this).attr("action"),
+    data: formData,
     cache: false,
     contentType: false,
     processData: false,
     type: 'POST',
     success: function(data){
-        alert("Picture saved: "+data);
+        alert("Picture added to gallery: "+data);
     }
 });
+e.preventDefault();
+    });
+$("#upload").submit();
+};
