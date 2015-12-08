@@ -1,13 +1,16 @@
-package imageSharing;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import imageSharingDatabase.Images;
+package imageSharing;
+
+import imageSharingDatabase.Comments;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -25,8 +28,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Artsi
  */
-@WebServlet(urlPatterns = {"/showImg"})
-public class gallery extends HttpServlet {
+@WebServlet(name = "showComment", urlPatterns = {"/comment/*"})
+public class showComment extends HttpServlet {
 
     EntityManagerFactory emf;
     EntityManager em;
@@ -42,36 +45,48 @@ public class gallery extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         response.setContentType("application/json;charset=UTF-8");
-        PrintWriter out = response.getWriter();
+        String imageIdRaw = request.getPathInfo().substring(1);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            try {
 
-        try {
+                emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
+                em = emf.createEntityManager();
 
-            emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
-            em = emf.createEntityManager();
+                JsonArrayBuilder builder = Json.createArrayBuilder();
 
-            JsonArrayBuilder builder = Json.createArrayBuilder();
+                int fkImg = Integer.parseInt(imageIdRaw);
+                Date date = new Date();
+                DateFormat df = new SimpleDateFormat("dd.MM.yyyy - HH:mm:ss");
 
-            for (Images i : (List<Images>) em.createNamedQuery("Images.findAll").getResultList()) {
-                String imagePath = i.getPath();
+                for (Comments c : (List<Comments>) em.createQuery("SELECT c FROM Comments c").getResultList()) {
+
+                    if (fkImg == c.getFKimg().getId()) {
+                        date = c.getTimeStamp();
+                        String user = "anon";
+                        String reportDate = df.format(date);
+                        builder.add(Json.createObjectBuilder()
+                                .add("comment", c.getText())
+                                .add("date", reportDate)
+                                .add("user", user)
+                                .add("id", c.getId()));
+                    } else {
+                        
+                    }
+                    
+                }
                 
-                builder.add(Json.createObjectBuilder()
-            .add("path", imagePath)
-            .add("id", i.getId())
-            .add("rating", "1"));
+                JsonArray arr = builder.build();
+                out.println(arr);
+
+            } catch (Exception e) {
+                out.println(e);
+            } finally {
+                em.close();
+                emf.close();
+                out.close();
             }
-
-            JsonArray arr = builder.build();
-
-            out.println(arr);
-            
-        } catch (Exception e) {
-            out.println(e);
-        } finally {
-            em.close();
-            emf.close();
-            out.close();
         }
 
     }

@@ -1,10 +1,10 @@
-package imageSharing;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package imageSharing;
+
 import imageSharingDatabase.Images;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,9 +25,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Artsi
  */
-@WebServlet(urlPatterns = {"/showImg"})
-public class gallery extends HttpServlet {
-
+@WebServlet(name = "showImg", urlPatterns = {"/image/*"})
+public class showImg extends HttpServlet {
     EntityManagerFactory emf;
     EntityManager em;
 
@@ -42,29 +41,30 @@ public class gallery extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        String imageIdRaw = request.getPathInfo().substring(1);
+        int imageId = Integer.parseInt(imageIdRaw);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */            
+            try {
 
-        response.setContentType("application/json;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-
-        try {
-
-            emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
-            em = emf.createEntityManager();
-
-            JsonArrayBuilder builder = Json.createArrayBuilder();
-
-            for (Images i : (List<Images>) em.createNamedQuery("Images.findAll").getResultList()) {
-                String imagePath = i.getPath();
+                emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
+                em = emf.createEntityManager();
                 
-                builder.add(Json.createObjectBuilder()
-            .add("path", imagePath)
-            .add("id", i.getId())
+                Images image = em.find(Images.class, imageId);
+                String path2 = image.getPath();
+                
+                JsonArrayBuilder builder = Json.createArrayBuilder();
+                
+            builder.add(Json.createObjectBuilder()
+            .add("path", path2)
+            .add("id", image.getId())
             .add("rating", "1"));
-            }
-
+            
             JsonArray arr = builder.build();
 
             out.println(arr);
+
             
         } catch (Exception e) {
             out.println(e);
@@ -73,7 +73,7 @@ public class gallery extends HttpServlet {
             emf.close();
             out.close();
         }
-
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

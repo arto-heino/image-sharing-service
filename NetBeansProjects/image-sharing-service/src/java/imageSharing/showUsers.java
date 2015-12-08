@@ -1,20 +1,12 @@
-package imageSharing;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import imageSharingDatabase.Images;
+package imageSharing;
+
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,11 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Artsi
  */
-@WebServlet(urlPatterns = {"/showImg"})
-public class gallery extends HttpServlet {
-
-    EntityManagerFactory emf;
-    EntityManager em;
+@WebServlet(name = "showUsers", urlPatterns = {"/showUsers"})
+public class showUsers extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,38 +31,19 @@ public class gallery extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        response.setContentType("application/json;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-
-        try {
-
-            emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
-            em = emf.createEntityManager();
-
-            JsonArrayBuilder builder = Json.createArrayBuilder();
-
-            for (Images i : (List<Images>) em.createNamedQuery("Images.findAll").getResultList()) {
-                String imagePath = i.getPath();
-                
-                builder.add(Json.createObjectBuilder()
-            .add("path", imagePath)
-            .add("id", i.getId())
-            .add("rating", "1"));
-            }
-
-            JsonArray arr = builder.build();
-
-            out.println(arr);
-            
-        } catch (Exception e) {
-            out.println(e);
-        } finally {
-            em.close();
-            emf.close();
-            out.close();
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet showUsers</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet showUsers at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
