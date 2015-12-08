@@ -11,6 +11,8 @@ import imageSharingDatabase.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.List;
+import javax.json.Json;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -41,10 +43,11 @@ public class writeComment extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         try {
                 emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
                 em = emf.createEntityManager();
-                PrintWriter out = response.getWriter();
+                
                 
                 String commentToWrite = request.getParameter("comment");
                 String imageId = request.getParameter("id");
@@ -59,8 +62,11 @@ public class writeComment extends HttpServlet {
                 comment.setTimeStamp(date);
                 Images image = new Images();
                 
-                //How to set comment FKImg id to fkImg
-                comment.setFKimg(image.setId(fkImg));
+                for (Images c : (List<Images>) em.createQuery("SELECT c FROM Images c").getResultList()) {
+                    if (c.getId() == fkImg){
+                        comment.setFKimg(c);
+                    }
+                }
                 
                 em.persist(comment);
                
@@ -68,6 +74,7 @@ public class writeComment extends HttpServlet {
                 
                 
             } catch (Exception e) {
+                out.println(e);
             } finally {
                 em.close();
                 emf.close();

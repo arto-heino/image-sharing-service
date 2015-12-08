@@ -73,6 +73,7 @@ function show_comments(id) {
             url:"http://127.0.0.1:8080/image-sharing-service/comment/" + id,
             success:function(data){
                var arr = data;
+               $("#comments").empty();
                for (i = 0; i < arr.length; i++) {
                    $("#comments").append(arr[i].comment+"</br>");
                }
@@ -93,9 +94,11 @@ function write_comment(){
         data : postData,
         success:function(data)
         {
-            show_comments(id);
         }
-    });
+    }).always(function(){
+        $("#comments").empty();
+        show_comments(id);
+        });
     e.preventDefault(); //STOP default action
 });
 $("#commentForm").submit();

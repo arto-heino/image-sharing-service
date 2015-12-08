@@ -59,15 +59,16 @@ public class showComment extends HttpServlet {
 
                 for (Comments c : (List<Comments>) em.createQuery("SELECT c FROM Comments c").getResultList()) {
 
-                    if (c.getFKimg().getId() == fkImg) {
+                    if (fkImg == c.getFKimg().getId()) {
                         builder.add(Json.createObjectBuilder()
                                 .add("comment", c.getText())
                                 .add("id", c.getId()));
                     } else {
-                        break;
+                        
                     }
                     
                 }
+                
                 JsonArray arr = builder.build();
                 out.println(arr);
 
