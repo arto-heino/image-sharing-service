@@ -74,7 +74,7 @@ function show_comments(id) {
                var arr = data;
                $("#comments").empty();
                for (i = 0; i < arr.length; i++) {
-                   $("#comments").append(arr[i].comment+"</br>");
+                   $("#comments").append(arr[i].date+" <"+arr[i].user+"> "+arr[i].comment+"</br>");
                }
             }
          }); 

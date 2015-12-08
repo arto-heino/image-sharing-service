@@ -7,12 +7,11 @@ package imageSharing;
 
 import imageSharingDatabase.Comments;
 import imageSharingDatabase.Images;
-import imageSharingDatabase.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
-import javax.json.Json;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -59,8 +58,8 @@ public class writeComment extends HttpServlet {
                 Comments comment = new Comments();
                 comment.setText(commentToWrite);
                 Date date = new Date();
-                comment.setTimeStamp(date);
-                Images image = new Images();
+                
+                comment.setTimeStamp(new Timestamp(date.getTime()));
                 
                 for (Images c : (List<Images>) em.createQuery("SELECT c FROM Images c").getResultList()) {
                     if (c.getId() == fkImg){

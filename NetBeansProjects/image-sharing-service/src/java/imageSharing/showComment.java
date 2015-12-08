@@ -6,9 +6,11 @@
 package imageSharing;
 
 import imageSharingDatabase.Comments;
-import imageSharingDatabase.Images;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -16,7 +18,6 @@ import javax.json.JsonArrayBuilder;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -56,12 +57,19 @@ public class showComment extends HttpServlet {
                 JsonArrayBuilder builder = Json.createArrayBuilder();
 
                 int fkImg = Integer.parseInt(imageIdRaw);
+                Date date = new Date();
+                DateFormat df = new SimpleDateFormat("dd.MM.yyyy - HH:mm:ss");
 
                 for (Comments c : (List<Comments>) em.createQuery("SELECT c FROM Comments c").getResultList()) {
 
                     if (fkImg == c.getFKimg().getId()) {
+                        date = c.getTimeStamp();
+                        String user = "anon";
+                        String reportDate = df.format(date);
                         builder.add(Json.createObjectBuilder()
                                 .add("comment", c.getText())
+                                .add("date", reportDate)
+                                .add("user", user)
                                 .add("id", c.getId()));
                     } else {
                         
