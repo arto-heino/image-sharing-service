@@ -70,26 +70,27 @@ public class uploadImg extends HttpServlet {
             while ((read = filecontent.read(bytes)) != -1) {
                 out.write(bytes, 0, read);
             }
+
+            emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
+            em = emf.createEntityManager();
+
+            em.getTransaction().begin();
+
+            int imageSize = bytes.length;
+
+            Images image = new Images();
+            Date date = new Date();
+
+            image.setPath(currentTime + fileName);
+            image.setFileSize(imageSize);
+            image.setUploadDate(date);
+            image.setFileName(fileName);
+
+            em.persist(image);
+
+            em.getTransaction().commit();
+
             writer.println("New file " + fileName + " created at " + path);
-            
-        emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
-        em = emf.createEntityManager();
-
-        em.getTransaction().begin();
-        
-        int imageSize = bytes.length;
-        
-        Date date = new Date();
-
-        Images image = new Images();
-        image.setPath(currentTime+fileName);
-        image.setFileSize(imageSize);
-        image.setUploadDate(date);
-        image.setFileName(fileName);
-
-        em.persist(image);
-
-        em.getTransaction().commit();
 
         } catch (FileNotFoundException fne) {
             writer.println("You either did not specify a file to upload or are "

@@ -8,7 +8,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <link rel="icon" href="../../favicon.ico">
-
+        
         <title>Image-Sharing-Service</title>
 
         <!-- Bootstrap core CSS -->
@@ -16,6 +16,7 @@
 
         <!-- Custom styles for this template -->
         <link href="starter-template.css" rel="stylesheet">
+        <script src="js/showTags.js"></script>
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -24,7 +25,7 @@
         <![endif]-->
     </head>
 
-    <body>
+    <body onload="show_tags();">
 
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
@@ -42,7 +43,6 @@
                         <li class="active"><a href="index.html">Home</a></li>
                         <li><a href="gallery.html">Images</a></li>
                         <li><a href="#myPictures">My pictures</a></li>
-                        <li><a href="tags.html">Tags</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="">Login</a></li>
@@ -55,16 +55,7 @@
         <div class="container">
 
             <div class="starter-template">
-                <h1>Start sharing your images</h1>
-                <br>
-                <p class="lead">
-                <form method="POST" action="uploadImg" id="upload">
-                    <span class="btn btn-default btn-file">
-                        Browse <input type="file" name="file" id="file">
-                    </span>
-                </form>
-                <button type="button" onclick="upload_image();" class="btn btn-primary">Upload</button>
-                </p>
+                <div id="tags"></div>
             </div>
 
 
@@ -76,6 +67,6 @@
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <script src="js/uploadImage.js"></script>
+        
     </body>
 </html>
