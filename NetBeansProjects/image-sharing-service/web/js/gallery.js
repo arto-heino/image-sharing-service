@@ -4,101 +4,111 @@
  * and open the template in the editor.
  */
 
-
-var xmlhttp = new XMLHttpRequest();
-var url = "http://127.0.0.1:8080/image-sharing-service/showImg";
-xmlhttp.onreadystatechange = function () {
-    if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-        myFunction2(xmlhttp.responseText);
-    }
-};
-xmlhttp.open("GET", url, true);
-xmlhttp.send();
-function myFunction2(response) {
-    var arr = JSON.parse(response);
-    var i;
-    var starCounter;
-    var out = "";
-    for (i = 0; i < arr.length; i++) {
-        out += "<div class=\"col-lg-3 col-md-4 col-xs-6\"><a href=\"#\" onclick=\"ReadImage(" + arr[i].id + ");return false;\"";
-        out += "class=\"thumbnail\">";
-        out += "<img class=\"img-responsive\" src='images/" + arr[i].path;
-        out += "' />";
-        out += "<div class=\"star-rating\">";
-        out += "<div class=\"star-rating__wrap\">";
-        for (starCounter = 1; starCounter < 6; starCounter++) {
-            out += "<input class=\"star-rating__input\" id=\"star-rating-" + starCounter + "\" type=\"radio\" name=\"rating\" value=\"" + starCounter + "\">";
-            out += "<label class=\"star-rating__ico fa fa-star-o fa-lg\" for=\"star-rating-" + starCounter + "\" title=\"5 out of 5 stars\"></label>";
-        }
-        out += "</div></div>";
-        out += arr[i].rating;
-        out += "</a></div>";
-    }
-    out += "";
-    document.getElementById("images").innerHTML = out;
-}
-
-function ReadImage(id) {
-    var xmlhttp = new XMLHttpRequest();
-    var url = "http://127.0.0.1:8080/image-sharing-service/image/" + id;
-    show_comments(id);
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-            myFunction(xmlhttp.responseText);
-        }
-    };
-    xmlhttp.open("GET", url, true);
-    xmlhttp.send();
-    function myFunction(response) {
-        var arr = JSON.parse(response);
-        var out = "";
-        out += "<div class=\"col-md-10\">";
-        out += "<img class=\"img-responsive center-block\" src='images/" + arr[0].path;
-        out += "' />";
-
-        out += "</div></div>";
-        out += "<div class=\"row\">";
-        out += "<div class=\"col-md-10\">Comment:";
-        out += "<form class=\"form-horizontal\" action=\"http://127.0.0.1:8080/image-sharing-service/writeComment/\" id=\"commentForm\"><input type=\"text\" class=\"form-control\" name=\"comment\" value=\"Write your comment here.\"><input type=\"hidden\" value=\""+arr[0].id+"\" name=\"id\"></form>";
-        out += "<button type=\"button\" onclick=\"write_comment();\" class=\"btn btn-primary\">comment</button>";
-        out += "</div>";
-        write_comment();
-        document.getElementById("images").innerHTML = out;
-    }
-}
-
 function show_comments(id) {
-         $.ajax({
-            url:"http://127.0.0.1:8080/image-sharing-service/comment/" + id,
-            success:function(data){
-               var arr = data;
-               $("#comments").empty();
-               for (i = 0; i < arr.length; i++) {
-                   $("#comments").append(arr[i].date+" <"+arr[i].user+"> "+arr[i].comment+"</br>");
-               }
+    $.ajax({
+        url: "http://127.0.0.1:8080/image-sharing-service/comment/" + id,
+        success: function (data) {
+            var arr = data;
+            $("#comments").empty();
+            for (i = 0; i < arr.length; i++) {
+                $("#comments").append(arr[i].date + " <" + arr[i].user + "> " + arr[i].comment + "</br>");
             }
-         }); 
-         };
-         
-function write_comment(){
-    $("#commentForm").submit(function(e)
-{
-    var postData = $(this).serialize();
-    var formURL = $(this).attr("action");
-    var id = jQuery('input[name="id"]').val();
-    $.ajax(
-    {
-        url : formURL,
-        type: "POST",
-        data : postData,
-        success:function(data)
-        {
         }
-    }).always(function(){
-        $("#comments").empty();
-        show_comments(id);
+    });
+}
+;
+
+function write_comment() {
+    $("#commentForm").submit(function (e)
+    {
+        var postData = $(this).serialize();
+        var formURL = $(this).attr("action");
+        var id = jQuery('input[name="id"]').val();
+        $.ajax(
+                {
+                    url: formURL,
+                    type: "POST",
+                    data: postData,
+                    success: function (data)
+                    {
+                    }
+                }).always(function () {
+            $("#comments").empty();
+            show_comments(id);
         });
-    e.preventDefault(); //STOP default action
-});
-$("#commentForm").submit();
-};
+        e.preventDefault(); //STOP default action
+    });
+    $("#commentForm").submit();
+}
+;
+
+function findByTag() {
+    $('.btnSearch').click(function () {
+        makeAjaxRequest();
+    });
+
+    $('form').submit(function (e) {
+        makeAjaxRequest();
+    });
+
+}
+;
+
+function makeAjaxRequest() {
+    $.ajax({
+        url: '/showImg',
+        type: 'get',
+        data: {name: $('input#name').val()},
+        success: function (response) {
+            $('table#resultTable tbody').html(response);
+        }
+    });
+}
+;
+
+function show_images() {
+    $.ajax({
+        url: "http://127.0.0.1:8080/image-sharing-service/showImg",
+        success: function (data) {
+            var arr = data;
+            var html = [];
+            for (i = 0; i < arr.length; i++) {
+                html.push('<div class="col-lg-3 col-md-4 col-xs-6"><a href="#" onclick="read_image(' + arr[i].id + ');return false;" class="thumbnail">');
+                html.push('<img class="img-responsive" src="images/' + arr[i].path + '" /></a></div>');
+
+
+//        <select id=\"example" + arr[i].id + "\">";
+//        out += "<option value=\"1\">1</option>";
+//        out += "<option value=\"2\">2</option>";
+//        out += "<option value=\"3\">3</option>";
+//        out += "<option value=\"4\">4</option>";
+//        out += "<option value=\"5\">5</option>";
+//        out += "</select>";
+//        out += "</div>";
+            }
+            $("#images").empty().append(html.join(''));
+        }
+    });
+}
+;
+
+function read_image(id) {
+    $.ajax({
+        url: "http://127.0.0.1:8080/image-sharing-service/image/" + id,
+        success: function (data) {
+            show_comments(id);
+            var arr = data;
+            var html = [];
+
+            html.push('<div class="col-md-10"><img class="img-responsive center-block" src="images/' + arr[0].path + '"/>');
+            html.push('</div></div><div class="row"><div class="col-md-10">Comment:');
+            html.push('<form class="form-horizontal" action="http://127.0.0.1:8080/image-sharing-service/writeComment/" id="commentForm"><input type="text" class="form-control" name="comment" value="Write your comment here."><input type="hidden" value="' + arr[0].id + '" name="id"></form>');
+            html.push('<button type="button" onclick="write_comment();" class="btn btn-primary">comment</button></div>');
+
+            write_comment();
+
+            $("#images").empty().append(html.join(''));
+        }
+    });
+}
+;

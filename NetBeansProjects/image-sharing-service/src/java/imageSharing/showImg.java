@@ -8,7 +8,6 @@ package imageSharing;
 import imageSharingDatabase.Images;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
@@ -58,8 +57,7 @@ public class showImg extends HttpServlet {
                 
             builder.add(Json.createObjectBuilder()
             .add("path", path2)
-            .add("id", image.getId())
-            .add("rating", "1"));
+            .add("id", image.getId()));
             
             JsonArray arr = builder.build();
 

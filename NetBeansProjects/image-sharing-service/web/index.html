@@ -10,6 +10,7 @@
         <link rel="icon" href="../../favicon.ico">
 
         <title>Image-Sharing-Service</title>
+        <script src="js/showTags.js"></script>
 
         <!-- Bootstrap core CSS -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -24,7 +25,7 @@
         <![endif]-->
     </head>
 
-    <body>
+    <body onload="show_tags();">
 
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
@@ -66,6 +67,8 @@
                 <button type="button" onclick="upload_image();" class="btn btn-primary">Upload</button>
                 </p>
             </div>
+            
+            <div id="tags"></div>
 
 
         </div><!-- /.container -->
@@ -77,5 +80,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/uploadImage.js"></script>
+        
     </body>
 </html>
