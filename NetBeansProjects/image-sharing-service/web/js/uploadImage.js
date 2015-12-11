@@ -4,14 +4,22 @@
  * and open the template in the editor.
  */
 
+
+
 function upload_image(){
     $("#upload").submit(function(e){
         var fileSelect = document.getElementById('file');
         var files = fileSelect.files;
         var formData = new FormData();
+        var user = sessionStorage.getItem('userId');
+        console.log(user);
+        if(!user)user = 0;
+                  
+        formData.append('user', user);
+        
         
         for (var i = 0; i < files.length; i++) {
-  var file = files[i];
+        var file = files[i];
 
   // Check the file type.
   if (!file.type.match('image.*')) {
@@ -20,6 +28,7 @@ function upload_image(){
 
   // Add the file to the request.
   formData.append('file', file, file.name);
+  
 }
         
 
