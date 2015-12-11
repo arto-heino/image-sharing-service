@@ -12,8 +12,9 @@ function upload_image(){
         var files = fileSelect.files;
         var formData = new FormData();
         var user = sessionStorage.getItem('userId');
-        console.log(user);
-        if(!user)user = 0;
+        
+
+        if(!user)user = 4;
                   
         formData.append('user', user);
         
@@ -28,7 +29,7 @@ function upload_image(){
 
   // Add the file to the request.
   formData.append('file', file, file.name);
-  
+  $("#uploadFile").append(file.name);
 }
         
 
@@ -40,7 +41,7 @@ jQuery.ajax({
     processData: false,
     type: 'POST',
     success: function(data){
-        $("#uploadFile").append(data);
+        $("#uploadFile").empty().append(data);
     }
 });
 

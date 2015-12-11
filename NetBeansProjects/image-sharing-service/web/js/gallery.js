@@ -67,9 +67,7 @@ function makeAjaxRequest() {
             for (i = 0; i < arr.length; i++) {
                 html.push('<div class="col-lg-3 col-md-4 col-xs-6"><a href="#" onclick="read_image(' + arr[i].id + ');return false;" class="thumbnail">');
                 html.push('<img class="img-responsive" src="images/' + arr[i].path + '" /></a>');
-                
                 html.push('</div>');
-
             }
             $("#images").empty().append(html.join(''));
         }
@@ -104,7 +102,7 @@ function read_image(id) {
             var html = [];
 
             html.push('<div class="col-md-10"><img class="img-responsive center-block" src="images/' + arr2[0].path + '"/>');
-            html.push('</div></div><div class="row"><div class="col-md-10">');
+            html.push('Uploaded by: '+arr2[0].username+'</div></div><div class="row"><div class="col-md-10">');
             html.push('<form class="form-horizontal" action="http://127.0.0.1:8080/image-sharing-service/writeComment/" id="commentForm"><input type="text" class="form-control" name="comment" value="Write your comment here."><input type="hidden" value="' + arr2[0].id + '" name="id"></form>');
             html.push('<button type="button" onclick="write_comment();" class="btn btn-primary">comment</button></div>');
 

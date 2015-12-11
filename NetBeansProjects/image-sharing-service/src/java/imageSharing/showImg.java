@@ -57,6 +57,7 @@ public class showImg extends HttpServlet {
                 
             builder.add(Json.createObjectBuilder()
             .add("path", path2)
+            .add("username", image.getFKowner().getUsername())
             .add("id", image.getId()));
             
             JsonArray arr = builder.build();
