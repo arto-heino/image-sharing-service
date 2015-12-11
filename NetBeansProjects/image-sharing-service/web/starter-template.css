@@ -113,3 +113,7 @@ button {
 #galleryHeader {
     margin-top: -0.75em;
 }
+
+.imgSizing {
+    max-height: 100%;
+}

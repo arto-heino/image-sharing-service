@@ -31,7 +31,7 @@ jQuery.ajax({
     processData: false,
     type: 'POST',
     success: function(data){
-        $("#uploadFile").append("<p>"+data+"</p>");
+        $("#uploadFile").append(data);
     }
 });
 

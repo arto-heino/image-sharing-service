@@ -5,7 +5,7 @@ $(document).ready(function () {
             var arr = data;
 
             for (i = 0; i < arr.length; i++) {
-                $("#tags").append(arr[i].tag + "</br>");
+                $("#tags").append("<a href=\"#\">"+arr[i].tag + "</a></br>");
             }
         }
     });
