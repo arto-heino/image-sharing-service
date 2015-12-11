@@ -9,7 +9,7 @@ function login() {
     $("#login").submit(function(e){
     var postData = $(this).serialize();
     var formURL = $(this).attr("action");
-    var logged = false;
+    var logged = "no";
     
     $.ajax(
     {
@@ -18,10 +18,12 @@ function login() {
         data : postData,
         success:function(data)
         {
+            
             parsedData = null;
             parsedData = JSON.parse(data);
+            
            
-            if (parsedData[0]=="False"){
+            if (parsedData[0]=="no"){
                
                 $('#username').val('');
                 $('#password').val('');
@@ -33,7 +35,9 @@ function login() {
             
             sessionStorage.setItem('user', parsedData[0]);
             sessionStorage.setItem('role', parsedData[1]);
-            logged = true;
+            sessionStorage.setItem('userId', parsedData[2]);
+            
+            logged = "yes";
             window.location.replace('http://192.168.56.1:8080/image-sharing-service/');
             //alert("Kirjautuneena: "+ parsedData);
             }
@@ -50,12 +54,33 @@ $("#login").submit();
     
 
 function logout() {
-    sessionStorage.setItem('loggedIn', "false")
+    sessionStorage.setItem('loggedIn', 'no')
+     //$("#logout").load();
+     //$("#login1").load();
+     //$( "#user" ).load();
 }
-
-function onLoad(){
-    
-}
+function onLoad() {
+        
+            var status = sessionStorage.getItem('loggedIn');
+            if (!status){
+                sessionStorage.setItem('loggedIn', 'no');
+                status = sessionStorage.getItem('loggedIn');
+            }
+            
+            if (status=="no"){//out
+                $( "#logout" ).hide();
+                $( "#user" ).empty();
+                
+            }
+            else{//in
+                $( "#login1" ).hide();
+                $( "#user" ).empty();
+                $( "#user" ).append( sessionStorage.getItem('user') );
+                
+            }
+            
+        }
+   
 
 
 

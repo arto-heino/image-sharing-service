@@ -7,30 +7,8 @@
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <meta name="description" content="">
         <meta name="author" content="">
+        <script src="js/login.js"></script>
         
-        
-        
-        <script type="text/javascript">
-        function onLoad() {
-            var status = sessionStorage.getItem('loggedIn');
-            console.log(status);
-            if (!status){//out
-                var divOne = document.getElementById('logout');
-                divOne.style.display='none';
-                
-            }
-            else{//in
-                var divOne = document.getElementById('login1');
-                divOne.style.display='none';
-                var theDiv = document.getElementById('user');
-                var content = document.createTextNode(sessionStorage.getItem('user'));
-                console.log(sessionStorage.getItem('user'));
-                theDiv.append(content);
-            }
-            
-        }
-        window.onload = onLoad;
-        </script>
         <link rel="icon" href="../../favicon.ico">
 
         <title>Image-Sharing-Service</title>
@@ -52,7 +30,7 @@
         
     </head> 
 
-    <body onload="show_tags();">
+    <body onload="onLoad();show_tags();">
 
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
@@ -63,18 +41,18 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="pull-left" href="#"><img id="logoImg" class="img-responsive" src="LogoW.png" alt="image-sharing-service"></a>
+                    <a class="navbar-brand" href="#">image-sharing-service</a>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="index.html">Home</a></li>
+                        <li class="active"><a href="#">Home</a></li>
                         <li><a href="gallery.html">Images</a></li>
                         <li><a href="#myPictures">My pictures</a></li>
-                        <li><a href="tags.html">Tags</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="login.html" id="login1">Login</a></li>
-                        <li><a href="login.html" id="logout" onclick="logout();">Logout</a><li>
+                        <li><div id="user"></div></li>
+                        <li><a href="index.html" id="logout" onclick="logout();">Logout</a><li>
                         <li><a href="register.html">Register</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
@@ -118,8 +96,7 @@
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <script src="js/uploadImage.js"></script>
         
-        <script src="js/login.js"></script>
+       
     </body>
 </html>

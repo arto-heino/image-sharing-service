@@ -8,27 +8,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <link rel="icon" href="../../favicon.ico">
-        <script type="text/javascript">
-        function onLoad() {
-            var status = sessionStorage.getItem('loggedIn')
-            console.log(status)
-            if (!status){//out
-                var divOne = document.getElementById('logout');
-                divOne.style.display='none';
-                
-            }
-            else{//in
-                var divOne = document.getElementById('login1');
-                divOne.style.display='none';
-                var theDiv = document.getElementById('user');
-                var content = document.createTextNode(sessionStorage.getItem('user'));
-                console.log(sessionStorage.getItem('user'))
-                theDiv.append(content);
-            }
-            
-        }
-        window.onload = onLoad;
-        </script>
+        <script src="js/login.js"></script>
 
         <title>Image-Sharing-Service</title>
 
@@ -45,7 +25,7 @@
         <![endif]-->
     </head>
 
-    <body>
+    <body onload="onLoad();">
         
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
@@ -67,7 +47,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="login.html" id="login1">Login</a></li>
                         <li><div id="user"></div></li>
-                        <li><a href="login.html" id="logout" onclick="logout();">Logout</a><li>
+                        <li><a href="index.html" id="logout" onclick="logout();">Logout</a><li>
                         <li><a href="register.html">Register</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
@@ -101,6 +81,7 @@
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <script src="js/login.js"></script>
+        
+        
     </body>
 </html>

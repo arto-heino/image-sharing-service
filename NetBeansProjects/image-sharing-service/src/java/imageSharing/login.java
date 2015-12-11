@@ -30,7 +30,7 @@ import java.util.ArrayList;
 public class login extends HttpServlet {
     EntityManagerFactory emf;
     EntityManager em;
-    Boolean logged;
+    String logged;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -40,7 +40,7 @@ public class login extends HttpServlet {
             
             emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
                 em = emf.createEntityManager();
-                logged = false;
+                logged = "no";
                 
                 
                 String username = request.getParameter("username");
@@ -53,30 +53,33 @@ public class login extends HttpServlet {
                 Query q = em.createQuery("SELECT u FROM Users u");
                 List<Users> userList = q.getResultList();
                 int userFKRole = 0;
+                int userId = 0;
                 for (Users user : userList) {
                      if (loginUser.getUsername().equalsIgnoreCase(user.getUsername())&&loginUser.getPassword().equals(user.getPassword())) { 
-                        logged = true;
+                        logged = "yes";
                         userFKRole = user.getFKRole().getRole();
+                        userId = user.getId();
+                        
                     } 
                     
                 }
                 
                 
                 
-                String json;
-               
+               String json;
                List<String> infos = new ArrayList<String>();
                infos.add(loginUser.getUsername());
                infos.add(Integer.toString(userFKRole));
+               infos.add(Integer.toString(userId));
                
-                if (logged){
+                if (logged=="yes"){
                      json = new Gson().toJson(infos);
-                    
-                    
-                    
                 } 
-                else json = "False";
-                
+                else{
+                    List<String> infos2 = new ArrayList<String>();
+                    infos2.add("no");
+                    json = new Gson().toJson(infos2);
+                }
                 out.write(json);
                 
             } catch (Exception e) {
