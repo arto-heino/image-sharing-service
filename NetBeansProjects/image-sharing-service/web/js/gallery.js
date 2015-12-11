@@ -58,9 +58,9 @@ function makeAjaxRequest() {
     $.ajax({
         url: '/showImg',
         type: 'get',
-        data: {name: $('input#name').val()},
+        data: {tag: $('input#tag').val()},
         success: function (response) {
-            $('table#resultTable tbody').html(response);
+            show_images();
         }
     });
 }
