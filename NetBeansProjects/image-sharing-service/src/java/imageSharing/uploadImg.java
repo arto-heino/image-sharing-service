@@ -6,6 +6,7 @@
 package imageSharing;
 
 import imageSharingDatabase.Images;
+import imageSharingDatabase.Users;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -14,9 +15,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -52,6 +55,10 @@ public class uploadImg extends HttpServlet {
 
         final String path = "/home/aheino/images/";
         final Part filePart = request.getPart("file");
+        final int userId = Integer.parseInt(request.getParameter("user"));
+        
+        
+        
         final String fileName = getFileName(filePart);
         final String currentTime = System.currentTimeMillis() + "_";
 
@@ -60,6 +67,7 @@ public class uploadImg extends HttpServlet {
         final PrintWriter writer = response.getWriter();
 
         try {
+            
             out = new FileOutputStream(new File(path + File.separator
                     + currentTime + fileName));
             filecontent = filePart.getInputStream();
@@ -74,6 +82,15 @@ public class uploadImg extends HttpServlet {
             emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
             em = emf.createEntityManager();
 
+            Query q = em.createQuery("SELECT u FROM Users u");
+            List<Users> userList = q.getResultList();
+            Users uploadUser = new Users();
+            for (Users user : userList) {
+                    if(user.getId().equals(userId)){
+                         uploadUser = user;
+                    }
+                }
+            
             em.getTransaction().begin();
 
             int imageSize = bytes.length;
@@ -85,7 +102,8 @@ public class uploadImg extends HttpServlet {
             image.setFileSize(imageSize);
             image.setUploadDate(date);
             image.setFileName(fileName);
-
+            image.setFKowner(uploadUser);
+            
             em.persist(image);
 
             em.getTransaction().commit();
