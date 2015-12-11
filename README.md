@@ -1,6 +1,12 @@
 # image-sharing-service
 # ![image-sharing-service](https://github.com/badbull/image-sharing-service/blob/ui_dev3/NetBeansProjects/image-sharing-service/web/Logo.png)
 
+## Welcome to Image-Sharing-Service VähäKuvei readme
+
+```
+There you can find a current info page on our VähäKuvei project.
+```
+
 ## Install
 
 ```
