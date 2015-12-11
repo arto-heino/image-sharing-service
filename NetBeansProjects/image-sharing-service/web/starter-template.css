@@ -1,5 +1,6 @@
 body {
   padding-top: 50px;
+  background-image: url("gplaypattern_white.png");
 }
 .starter-template {
   padding: 40px 15px;
@@ -34,6 +35,7 @@ body {
 .star-rating__wrap{
 	display: inline-block;
 	font-size: 1rem;
+        margin-top: 1em;
 }
 .star-rating__wrap:after{
 	content: "";
@@ -57,4 +59,40 @@ body {
 .star-rating__input:checked ~ .star-rating__ico:before
 {
 	content: "\f005";
+}
+
+#regForm {
+    text-align: left;
+}
+
+#regBtn {
+    text-align: center;
+}
+
+#commentForm {
+    margin: 0.5em 1em 0em 1em;
+}
+button {
+    margin: 0.5em 1em 0.5em 1em;
+}
+
+#comments {
+    margin: 0.5em 1em 0.5em 1em;
+}
+
+#commentHeader {
+    visibility: hidden;
+}
+
+#logoImg {
+    max-width: 150px;
+    padding: 0.75em 1em 0em 1em;
+}
+
+#searchForm {
+    margin: 1em;
+}
+
+#thumbnail img{
+    height: inherit;
 }

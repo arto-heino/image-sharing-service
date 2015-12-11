@@ -35,7 +35,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">image-sharing-service</a>
+                    <a class="pull-left" href="#"><img id="logoImg" class="img-responsive" src="LogoW.png" alt="image-sharing-service"></a>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
@@ -54,8 +54,13 @@
         <div class="container">
 
             <div class="starter-template">
-                <h1>Start sharing your images</h1>
-                <br>
+                <h1>Welcome to</h1>
+                <div class="row">
+                    <div class="col-xs-1 col-sm-2 col-md-3"></div>
+                    <img id="welcomeImg" class="img-responsive center-block col-xs-10 col-sm-8 col-md-6" src="Logo.png" alt="VähäKuvei">
+                    <div class="col-xs-1 col-sm-2 col-md-3"></div>
+                </div>
+                <h1><small>Start sharing your images</small></h1>
                 <p class="lead">
                 <form method="POST" action="uploadImg" id="upload">
                     <span class="btn btn-default btn-file">
@@ -63,6 +68,12 @@
                     </span>
                 </form>
                 <button type="button" onclick="upload_image();" class="btn btn-primary">Upload</button>
+                <!--<form method="POST" action="uploadImg" enctype="multipart/form-data">
+                    <span class="btn btn-default btn-file">
+                        Browse <input type="file" name="file" id="file">
+                    </span>
+                    <input type="submit" value="Upload" name="upload" id="upload"  class="btn btn-default"/>
+                </form>-->
                 </p>
             </div>
 

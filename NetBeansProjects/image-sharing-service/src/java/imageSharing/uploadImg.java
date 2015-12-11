@@ -48,9 +48,9 @@ public class uploadImg extends HttpServlet {
     protected void processRequest(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
 
-        final String path = "/home/aheino/images/";
+        final String path = "/home/mberka/images/";
         final Part filePart = request.getPart("file");
         final String fileName = getFileName(filePart);
         final String currentTime = System.currentTimeMillis() + "_";

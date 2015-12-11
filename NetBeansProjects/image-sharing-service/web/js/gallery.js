@@ -20,8 +20,8 @@ function myFunction2(response) {
     var starCounter;
     var out = "";
     for (i = 0; i < arr.length; i++) {
-        out += "<div class=\"col-lg-3 col-md-4 col-xs-6\"><a href=\"#\" onclick=\"ReadImage(" + arr[i].id + ");return false;\"";
-        out += "class=\"thumbnail\">";
+        out += "<div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12\"><a href=\"#\" onclick=\"ReadImage(" + arr[i].id + ");return false;\"";
+        out += "class=\"thumbnail\" id=\"thumbnail\">";
         out += "<img class=\"img-responsive\" src='images/" + arr[i].path;
         out += "' />";
         out += "<div class=\"star-rating\">";
@@ -31,7 +31,7 @@ function myFunction2(response) {
             out += "<label class=\"star-rating__ico fa fa-star-o fa-lg\" for=\"star-rating-" + starCounter + "\" title=\"5 out of 5 stars\"></label>";
         }
         out += "</div></div>";
-        out += arr[i].rating;
+        //out += arr[i].rating;
         out += "</a></div>";
     }
     out += "";
@@ -58,7 +58,7 @@ function ReadImage(id) {
 
         out += "</div></div>";
         out += "<div class=\"row\">";
-        out += "<div class=\"col-md-10\">Comment:";
+        out += "<div class=\"col-md-10\">";
         out += "<form class=\"form-horizontal\" action=\"http://127.0.0.1:8080/image-sharing-service/writeComment/\" id=\"commentForm\"><input type=\"text\" class=\"form-control\" name=\"comment\" value=\"Write your comment here.\"><input type=\"hidden\" value=\""+arr[0].id+"\" name=\"id\"></form>";
         out += "<button type=\"button\" onclick=\"write_comment();\" class=\"btn btn-primary\">comment</button>";
         out += "</div>";

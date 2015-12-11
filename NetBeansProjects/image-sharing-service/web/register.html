@@ -35,7 +35,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">image-sharing-service</a>
+                    <a class="pull-left" href="index.html"><img id="logoImg" class="img-responsive" src="LogoW.png" alt="image-sharing-service"></a>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
@@ -45,7 +45,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="">Login</a></li>
-                        <li class="active"><a href="register.html">Register</a></li>
+                        <li class="active"><a href="">Register</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -57,17 +57,34 @@
                 <h1>Register</h1>
                 <br>
                 <p class="lead">
-                <form method="POST" action="createUser">
-                    <input type="text" value="username" name="username" id="username" />
-                    <br>
-                    <input type="password" value="password" name="password" id="password" />
-                    <br>
-                    <input type="text" value="email" name="email" id="email" />
-                    <br>
-                    <br>
-                    <input type="submit" value="Register" name="submit" id="submit" />
+                <div class="col-md-3 col-sm-2 col-xs-0"></div>
+                <form id="regForm" method="POST" action="createUser" class="form-horizontal col-md-6 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                        <label for="username" class="col-sm-2 control-label">Username</label>
+                        <div class="col-sm-10">
+                            <input type="text" value="username" placeholder="Username" name="username" id="username" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-2 control-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" value="password" placeholder="Password" name="password" id="password" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-sm-2 control-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="text" value="email" placeholder="Email" name="email" id="email" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group" id="regBtn">
+                        <div class="col-sm-12">
+                            <input type="submit" value="Register" name="submit" id="submit" class="btn btn-primary" />
+                        </div>
+                    </div>
                 </form>
-                </p>
+                <div class="col-md-3 col-sm-2 col-xs-0"></div>
+                <!--</p>-->
             </div>
 
 
