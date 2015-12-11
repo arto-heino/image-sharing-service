@@ -6,6 +6,7 @@
 
 function show_comments(id) {
     $.ajax({
+        method:"POST",
         url: "http://127.0.0.1:8080/image-sharing-service/comment/" + id,
         success: function (data1) {
             var arr = data1;
@@ -26,6 +27,7 @@ function write_comment() {
         var id = jQuery('input[name="id"]').val();
         $.ajax(
                 {
+                    method:"POST",
                     url: formURL,
                     type: "POST",
                     data: postData,
@@ -56,6 +58,7 @@ function findByTag() {
 
 function makeAjaxRequest() {
     $.ajax({
+        method:"POST",
         url: '/showImg',
         type: 'get',
         data: {name: $('input#name').val()},
@@ -68,6 +71,7 @@ function makeAjaxRequest() {
 
 function show_images() {
     $.ajax({
+        method:"POST",
         url: "http://127.0.0.1:8080/image-sharing-service/showImg",
         success: function (data) {
             var arr = data;
@@ -97,6 +101,7 @@ function show_images() {
 
 function read_image(id) {
     $.ajax({
+        method:"POST",
         url: "http://127.0.0.1:8080/image-sharing-service/image/" + id,
         success: function (data2) {
             var arr2 = JSON.parse(data2);
