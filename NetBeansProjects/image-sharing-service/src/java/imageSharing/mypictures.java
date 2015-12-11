@@ -51,7 +51,7 @@ public class mypictures extends HttpServlet {
             emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
             em = emf.createEntityManager();
             
-            int userId = Integer.parseInt(request.getParameter("userId"));
+            int userId = Integer.parseInt(request.getParameter("user"));
 
             JsonArrayBuilder builder = Json.createArrayBuilder();
 

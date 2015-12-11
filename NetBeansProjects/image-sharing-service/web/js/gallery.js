@@ -16,8 +16,7 @@ function show_comments(id) {
             }
         }
     });
-}
-;
+};
 
 function write_comment() {
     $("#commentForm").submit(function (e)
@@ -44,22 +43,10 @@ function write_comment() {
         e.preventDefault(); //STOP default action
     });
     $("#commentForm").submit();
-}
-;
-
-function findByTag() {
-    $('.btnSearch').click(function () {
-        makeAjaxRequest();
-    });
-
-    $('form').submit(function (e) {
-        makeAjaxRequest();
-    });
-
-}
-;
+};
 
 function makeAjaxRequest() {
+    $("#searchTag").submit(function(e){
     $.ajax({
         url: '/showImgByTag',
         type: 'get',
@@ -76,6 +63,9 @@ function makeAjaxRequest() {
         }
         
     });
+    e.preventDefault();
+    });
+    $("#searchTag").submit();
 };
 
 function show_images() {
@@ -93,8 +83,7 @@ function show_images() {
             $("#images").empty().append(html.join(''));
         }
     });
-}
-;
+};
 
 function read_image(id) {
     $.ajax({
@@ -114,4 +103,4 @@ function read_image(id) {
             show_comments(id);
         }
     });
-}
+};

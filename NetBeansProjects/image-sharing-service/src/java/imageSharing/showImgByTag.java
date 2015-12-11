@@ -5,15 +5,15 @@
  */
 package imageSharing;
 
-import imageSharingDatabase.Comments;
 import imageSharingDatabase.Images;
 import imageSharingDatabase.Tag;
 import imageSharingDatabase.Tags;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -51,26 +51,33 @@ public class showImgByTag extends HttpServlet {
             emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
             em = emf.createEntityManager();
 
-            String tagFromDb = request.getParameter("tag");
-            
+            JsonArrayBuilder builder = Json.createArrayBuilder();
 
-            Tags tags = new Tags();
-            Tag tag = new Tag();
-            
-            int imageId = 0;
+            String tagFromDb = request.getParameter("tag");
+
+            int imageId;
 
             for (Tag t : (List<Tag>) em.createQuery("SELECT t FROM Tag t").getResultList()) {
                 if (t.getName().equals(tagFromDb)) {
-                   tagId = t.getId();
+                    tagId = t.getId();
                 }
             }
-            
+
             for (Tags t : (List<Tags>) em.createQuery("SELECT t FROM Tags t").getResultList()) {
-                if (tagId == t.getId()) { 
+                if (tagId == t.getId()) {
                     imageId = t.getFKimg().getId();
+                    for (Images i : (List<Images>) em.createQuery("SELECT i FROM Images i").getResultList()) {
+                        if (imageId == i.getId()){
+                    builder.add(Json.createObjectBuilder()
+                            .add("path", i.getPath())
+                            .add("id", i.getId()));
                 }
+                    }
             }
-            
+            }
+            JsonArray arr = builder.build();
+            out.println(arr);
+
         } catch (Exception e) {
             out.println(e);
         } finally {
