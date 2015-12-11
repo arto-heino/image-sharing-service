@@ -21,14 +21,17 @@ function show_comments(id) {
 function write_comment() {
     $("#commentForm").submit(function (e)
     {
+        var user = sessionStorage.getItem('userId');
+        if(!user)user = 4;
         var postData = $(this).serialize();
+        
         var formURL = $(this).attr("action");
         var id = jQuery('input[name="id"]').val();
         $.ajax(
                 {
                     url: formURL,
                     type: "POST",
-                    data: postData,
+                    data: postData+ "&userId=" +user,
                     success: function (data)
                     {
                     }

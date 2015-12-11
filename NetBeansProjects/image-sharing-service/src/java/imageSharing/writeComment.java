@@ -7,6 +7,7 @@ package imageSharing;
 
 import imageSharingDatabase.Comments;
 import imageSharingDatabase.Images;
+import imageSharingDatabase.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
@@ -15,6 +16,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -50,8 +52,18 @@ public class writeComment extends HttpServlet {
                 
                 String commentToWrite = request.getParameter("comment");
                 String imageId = request.getParameter("id");
+                int userId = Integer.parseInt(request.getParameter("userId"));
                 
                 int fkImg = Integer.parseInt(imageId);
+                
+                Query q = em.createQuery("SELECT u FROM Users u");
+                List<Users> userList = q.getResultList();
+                Users uploadUser = new Users();
+                for (Users user : userList) {
+                    if(user.getId().equals(userId)){
+                         uploadUser = user;
+                    }
+                }
                                 
                 em.getTransaction().begin();
                 
@@ -60,6 +72,7 @@ public class writeComment extends HttpServlet {
                 Date date = new Date();
                 
                 comment.setTimeStamp(new Timestamp(date.getTime()));
+                comment.setFKwriter(uploadUser);
                 
                 for (Images c : (List<Images>) em.createQuery("SELECT c FROM Images c").getResultList()) {
                     if (c.getId() == fkImg){
