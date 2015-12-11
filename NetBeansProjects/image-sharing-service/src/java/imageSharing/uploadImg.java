@@ -48,9 +48,9 @@ public class uploadImg extends HttpServlet {
     protected void processRequest(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/json;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
 
-        final String path = "/home/mberka/images/";
+        final String path = "/home/aheino/images/";
         final Part filePart = request.getPart("file");
         final String fileName = getFileName(filePart);
         final String currentTime = System.currentTimeMillis() + "_";
@@ -90,7 +90,7 @@ public class uploadImg extends HttpServlet {
 
             em.getTransaction().commit();
 
-            writer.println("New file " + fileName + " created at " + path);
+            writer.println("File "+ fileName + " uploaded");
 
         } catch (FileNotFoundException fne) {
             writer.println("You either did not specify a file to upload or are "

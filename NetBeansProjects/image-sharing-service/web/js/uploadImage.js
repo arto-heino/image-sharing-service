@@ -31,9 +31,10 @@ jQuery.ajax({
     processData: false,
     type: 'POST',
     success: function(data){
-        alert("Picture added to gallery: "+data);
+        $("#uploadFile").append("<p>"+data+"</p>");
     }
 });
+
 e.preventDefault();
     });
 $("#upload").submit();

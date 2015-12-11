@@ -43,7 +43,8 @@ public class showTags extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        final PrintWriter out = response.getWriter();
+        try {
             emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
             em = emf.createEntityManager();
 
@@ -57,7 +58,11 @@ public class showTags extends HttpServlet {
             }
             JsonArray arr = builder.build();
             out.println(arr);
-        }
+        }finally{
+                em.close();
+                emf.close();
+                out.close();
+            }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
