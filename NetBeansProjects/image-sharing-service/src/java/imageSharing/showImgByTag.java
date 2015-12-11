@@ -66,7 +66,7 @@ public class showImgByTag extends HttpServlet {
             }
 
             for (Tags t : (List<Tags>) em.createQuery("SELECT t FROM Tags t").getResultList()) {
-                if (tagId == t.getId()) {
+                if (tagId == t.getFKtag().getId()) {
                     imageId = t.getFKimg().getId();
                     for (Images i : (List<Images>) em.createQuery("SELECT i FROM Images i").getResultList()) {
                         if (imageId == i.getId()){
