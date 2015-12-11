@@ -16,7 +16,7 @@ Load necessary files
   - SQL database
   - current master branch
   
-Open project in netbeans and setup the correct database info
+Open project in netbeans and set up the correct database info
 
 Run project
 ```
@@ -24,27 +24,27 @@ Run project
 ## Features
 
 ```
-There are current list of features ver 1.0
+Here is the current list of features ver 1.0
 
-- Upload image (if logged in, you will be a uploader else it will be "anon")
+- Upload image (if logged in, you will be an uploader, otherwise it will be "anon")
 - Login and register
 - Look all the uploaded images in Gallery
 - Search images by tags
 - Open a selected image
 - Show uploader below image
 - Show comments below image
-- Write comments to image (if logged in, you will be commenter else it will be "anon")
+- Write comments to image (if logged in, you will be an commenter, otherwise it will be "anon")
 ```
 
 ## Bugs
 
 ```
-There are plenty of bugs in current versio, there are some of them.
+There are plenty of bugs in current version, here are some of them.
 
 - MyImages, giving a nullPointError when trying to parse images you have been uploaded
 - Frontpage "File" well, is not updating because of DOM-error
 - Frontpage "Tags" well, is not transfer user to correct position in Images
-- Change your password has not been tested :D
+- Password changing has not been tested yet :D
 ```
 
 ## Team
