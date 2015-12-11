@@ -32,7 +32,7 @@ public class showImgByTag extends HttpServlet {
 
     EntityManagerFactory emf;
     EntityManager em;
-    int tagId = 0;
+    int tagId;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -58,8 +58,10 @@ public class showImgByTag extends HttpServlet {
             int imageId;
 
             for (Tag t : (List<Tag>) em.createQuery("SELECT t FROM Tag t").getResultList()) {
-                if (t.getName().equals(tagFromDb)) {
+                if (tagFromDb == null ? t.getName() == null : tagFromDb.equals(t.getName())) {
                     tagId = t.getId();
+                }else{
+                    tagId = 2;
                 }
             }
 

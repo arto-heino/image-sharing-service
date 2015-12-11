@@ -57,13 +57,11 @@ public class mypictures extends HttpServlet {
 
             for (Images i : (List<Images>) em.createNamedQuery("Images.findAll").getResultList()) {
                 String imagePath = i.getPath();
-                if(i.getFKowner().getId().equals(userId)){
+                if(i.getFKowner().getId() == userId){
                     
-                
                 builder.add(Json.createObjectBuilder()
             .add("path", imagePath)
-            .add("id", i.getId())
-            .add("rating", "1"));
+            .add("id", i.getId()));
                 }
             }
 
