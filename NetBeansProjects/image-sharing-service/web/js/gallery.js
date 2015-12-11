@@ -9,10 +9,10 @@ function show_comments(id) {
         method:"POST",
         url: "http://127.0.0.1:8080/image-sharing-service/comment/" + id,
         success: function (data1) {
-            var arr = data1;
+            var arr1 = data1;
             $("#comments").empty();
-            for (i = 0; i < arr.length; i++) {
-                $("#comments").append(arr[i].date + " <" + arr[i].user + "> " + arr[i].comment + "</br>");
+            for (i = 0; i < arr1.length; i++) {
+                $("#comments").append(''+arr1[i].date +' *' + arr1[i].userName + '* ' + arr1[i].comment + '</br>');
             }
         }
     });
@@ -106,7 +106,7 @@ function read_image(id) {
 
             html.push('<div class="col-md-10"><img class="img-responsive center-block" src="images/' + arr2[0].path + '"/>');
             html.push('Uploaded by: '+arr2[0].username+'</div></div><div class="row"><div class="col-md-10">');
-            html.push('<form class="form-horizontal" action="http://127.0.0.1:8080/image-sharing-service/writeComment/" id="commentForm"><input type="text" class="form-control" name="comment" value="Write your comment here."><input type="hidden" value="' + arr2[0].id + '" name="id"></form>');
+            html.push('<form class="form-horizontal" action="http://127.0.0.1:8080/image-sharing-service/writeComment/" id="commentForm"><input type="text" class="form-control" name="comment" value="" placeholder="Please add a comment."><input type="hidden" value="' + arr2[0].id + '" name="id"></form>');
             html.push('<button type="button" onclick="write_comment();" class="btn btn-primary">comment</button></div>');
 
             $("#images").empty().append(html.join(''));

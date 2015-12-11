@@ -6,18 +6,17 @@
 package imageSharing;
 
 import imageSharingDatabase.Comments;
+import imageSharingDatabase.Images;
+import imageSharingDatabase.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,8 +27,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Artsi
  */
-@WebServlet(name = "showComment", urlPatterns = {"/comment/*"})
-public class showComment extends HttpServlet {
+@WebServlet(name = "changePassword", urlPatterns = {"/changePassword"})
+public class changePassword extends HttpServlet {
 
     EntityManagerFactory emf;
     EntityManager em;
@@ -45,49 +44,42 @@ public class showComment extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/json;charset=UTF-8");
-        String imageIdRaw = request.getPathInfo().substring(1);
+        response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            try {
 
-                emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
-                em = emf.createEntityManager();
+            emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
+            em = emf.createEntityManager();
 
-                JsonArrayBuilder builder = Json.createArrayBuilder();
-
-                int fkImg = Integer.parseInt(imageIdRaw);
-                Date date = new Date();
-                DateFormat df = new SimpleDateFormat("dd.MM.yyyy - HH:mm:ss");
-
-                for (Comments c : (List<Comments>) em.createQuery("SELECT c FROM Comments c").getResultList()) {
-
-                    if (fkImg == c.getFKimg().getId()) {
-                        date = c.getTimeStamp();
-                        String reportDate = df.format(date);
-                        builder.add(Json.createObjectBuilder()
-                                .add("comment", c.getText())
-                                .add("date", reportDate)
-                                .add("userName", c.getFKwriter().getUsername())
-                                .add("id", c.getId()));
-                    } else {
-                        
+            String password = request.getParameter("password");
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            
+            Query q = em.createQuery("SELECT u FROM Users u");
+                List<Users> userList = q.getResultList();
+                Users uploadUser = new Users();
+                for (Users user : userList) {
+                    if(user.getId().equals(userId)){
+                         uploadUser = user;
                     }
-                    
                 }
+                                
+                em.getTransaction().begin();
                 
-                JsonArray arr = builder.build();
-                out.println(arr);
-
+                uploadUser.setPassword(password);
+                
+                em.persist(uploadUser);
+               
+                em.getTransaction().commit();
+                
+                
             } catch (Exception e) {
-                out.println(e);
+               
             } finally {
                 em.close();
                 emf.close();
-                out.close();
             }
-        }
+    
 
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
