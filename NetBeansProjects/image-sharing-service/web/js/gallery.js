@@ -96,7 +96,6 @@ function read_image(id) {
     $.ajax({
         url: "http://127.0.0.1:8080/image-sharing-service/image/" + id,
         success: function (data) {
-            show_comments(id);
             var arr = data;
             var html = [];
 
@@ -105,9 +104,10 @@ function read_image(id) {
             html.push('<form class="form-horizontal" action="http://127.0.0.1:8080/image-sharing-service/writeComment/" id="commentForm"><input type="text" class="form-control" name="comment" value="Write your comment here."><input type="hidden" value="' + arr[0].id + '" name="id"></form>');
             html.push('<button type="button" onclick="write_comment();" class="btn btn-primary">comment</button></div>');
 
-            write_comment();
-
             $("#images").empty().append(html.join(''));
+            
+            show_comments(id);
+            write_comment();
         }
     });
 }
