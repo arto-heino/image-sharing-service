@@ -58,18 +58,29 @@
 
             <div class="starter-template">
                 <h1>Login</h1>
-                <br>
-                <p class="lead">
-                <form method="POST" action="login" id="login">
-                    <input type="text" value="username" name="username" id="username" />
-                    <br>
-                    <input type="password" value="password" name="password" id="password" />
-                    <br>
-                    
-                    <button type="button" onclick="login();" class="btn btn-primary">Login</button>
-                    <!--<input type="submit" value="Login" name="submit" id="submit" />-->
+                <div class="col-md-3 col-sm-2 col-xs-0"></div>
+                <form method="POST" action="login" id="login" class="form-horizontal col-md-6 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                        <label for="username" class="col-sm-2 control-label">Username</label>
+                        <div class="col-sm-10">
+                            <input type="text" value="username" name="username" id="username" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-2 control-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" value="password" name="password" id="password" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group" id="loginBtn">
+                        <div class="col-sm-12">
+                            <button type="button" onclick="login();" class="btn btn-primary">Login</button>
+                            <!--<input type="submit" value="Login" name="submit" id="submit" />-->
+                        </div>
+                    </div>
                 </form>
-                <div style="color:#FF0000" id="after"></div>
+                <div class="col-md-3 col-sm-2 col-xs-0"></div>
+                <div style="color:#FF0000" id="after"></div> 
             </div>
 
 
