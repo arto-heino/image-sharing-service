@@ -54,21 +54,7 @@ function logout() {
 }
 
 function onLoad(){
-    var status = sessionStorage.getItem('loggedIn');
-            console.log(status);
-            if (!status){//out
-                var divOne = document.getElementById('logout');
-                divOne.style.display='none';
-                
-            }
-            else{//in
-                var divOne = document.getElementById('login1');
-                divOne.style.display='none';
-                var theDiv = document.getElementById('user');
-                var content = document.createTextNode(sessionStorage.getItem('user'));
-                console.log(sessionStorage.getItem('user'));
-                theDiv.append(content);
-            }
+    
 }
 
 
