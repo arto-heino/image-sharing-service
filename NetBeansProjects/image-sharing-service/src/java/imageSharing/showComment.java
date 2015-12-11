@@ -59,6 +59,16 @@ public class showComment extends HttpServlet {
                 int fkImg = Integer.parseInt(imageIdRaw);
                 Date date = new Date();
                 DateFormat df = new SimpleDateFormat("dd.MM.yyyy - HH:mm:ss");
+                
+//                String action = request.getParameter("action");
+//                
+//                if("delete".equals(action)){
+//                    Comments comment = em.find(Comments.class, imageId);
+// 
+//                    em.getTransaction().begin();
+//                    em.remove(comment);
+//                    em.getTransaction().commit();
+//                }
 
                 for (Comments c : (List<Comments>) em.createQuery("SELECT c FROM Comments c").getResultList()) {
 

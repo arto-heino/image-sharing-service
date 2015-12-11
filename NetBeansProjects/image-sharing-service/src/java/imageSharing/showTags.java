@@ -5,7 +5,7 @@
  */
 package imageSharing;
 
-import imageSharingDatabase.Tags;
+import imageSharingDatabase.Tag;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -49,8 +49,8 @@ public class showTags extends HttpServlet {
             em = emf.createEntityManager();
 
             JsonArrayBuilder builder = Json.createArrayBuilder();
-            for (Tags t : (List<Tags>) em.createQuery("SELECT t FROM Tags t").getResultList()) {
-                String tag = t.getFKtag().getName();
+            for (Tag t : (List<Tag>) em.createQuery("SELECT t FROM Tag t").getResultList()) {
+                String tag = t.getName();
                 builder.add(Json.createObjectBuilder()
                                 .add("tag", tag)
                                 .add("id", tag));

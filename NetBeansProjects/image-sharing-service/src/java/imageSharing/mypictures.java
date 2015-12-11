@@ -45,23 +45,23 @@ public class mypictures extends HttpServlet {
 
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        String userIdString = request.getParameter("user");
+        int userId = Integer.parseInt(userIdString);
 
         try {
 
             emf = Persistence.createEntityManagerFactory("image-sharing-servicePU");
             em = emf.createEntityManager();
-            
-            int userId = Integer.parseInt(request.getParameter("user"));
 
             JsonArrayBuilder builder = Json.createArrayBuilder();
 
-            for (Images i : (List<Images>) em.createNamedQuery("Images.findAll").getResultList()) {
-                String imagePath = i.getPath();
+            for (Images i : (List<Images>) em.createQuery("SELECT i FROM Images i").getResultList()) {
                 if(i.getFKowner().getId() == userId){
-                    
                 builder.add(Json.createObjectBuilder()
-            .add("path", imagePath)
+            .add("path", i.getPath())
             .add("id", i.getId()));
+                }else{
+                    
                 }
             }
 

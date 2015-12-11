@@ -52,6 +52,7 @@ public class writeComment extends HttpServlet {
                 
                 String commentToWrite = request.getParameter("comment");
                 String imageId = request.getParameter("id");
+                
                 int userId = Integer.parseInt(request.getParameter("userId"));
                 
                 int fkImg = Integer.parseInt(imageId);

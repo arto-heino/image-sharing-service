@@ -10,17 +10,14 @@ function show_images() {
 
     $.ajax({
         url: "http://127.0.0.1:8080/image-sharing-service/mypictures",
-        data: { 'user' : user },
+        data: {user: user},
         success: function (data) {
-            var arr = data;
+            var arr = JSON.parse(data);
             var html = [];
             for (i = 0; i < arr.length; i++) {
                 html.push('<div class="col-lg-3 col-md-4 col-xs-6"><a href="#" onclick="read_image(' + arr[i].id + ');return false;" class="thumbnail">');
                 html.push('<img class="img-responsive" src="images/' + arr[i].path + '" /></a>');
                 html.push('</div>');
-
-
-
             }
             $("#myimages").empty().append(html.join(''));
         }
