@@ -15,6 +15,6 @@ ASD
 
 ## Team
 
-[![Arto Heino](http://www.nepalchamberexpo.com/images/home/why.png)](https://github.com/badbull/) | [![Milos Berka](http://www.nepalchamberexpo.com/images/home/why.png)](https://github.com/badbull/)
+[![Arto Heino](http://www.nepalchamberexpo.com/images/home/why.png)](https://github.com/badbull/) | [![Milos Berka](http://www.nepalchamberexpo.com/images/home/why.png)](https://github.com/badbull/) | [![Keni Kastinen](http://www.nepalchamberexpo.com/images/home/why.png)](https://github.com/badbull/)
 ---|---
 [Arto Heino](https://github.com/badbull/) | [Milos Berka](https://github.com/badbull/) | [Keni Kastinen](https://github.com/badbull/)
