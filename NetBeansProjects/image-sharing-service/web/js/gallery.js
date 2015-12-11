@@ -6,6 +6,7 @@
 
 function show_comments(id) {
     $.ajax({
+        method:"POST",
         url: "http://127.0.0.1:8080/image-sharing-service/comment/" + id,
         success: function (data1) {
             var arr = data1;
@@ -56,18 +57,38 @@ function findByTag() {
 
 function makeAjaxRequest() {
     $.ajax({
-        url: '/showImg',
+        url: '/showImgByTag',
         type: 'get',
         data: {tag: $('input#tag').val()},
-        success: function (response) {
-            show_images();
+        success: function (data) {
+            var arr = data;
+            var html = [];
+            for (i = 0; i < arr.length; i++) {
+                html.push('<div class="col-lg-3 col-md-4 col-xs-6"><a href="#" onclick="read_image(' + arr[i].id + ');return false;" class="thumbnail">');
+                html.push('<img class="img-responsive" src="images/' + arr[i].path + '" /></a>');
+                html.push('<select id="example' + arr[i].id + '">');
+                html.push('<option value="1">1</option>');
+                html.push('<option value="2">2</option>');
+                html.push('<option value="3">3</option>');
+                html.push('<option value="4">4</option>');
+                html.push('<option value="5">5</option>');
+                html.push('</select></div>');
+
+                $(function () {
+                    $('#example' + arr[i].id).barrating('show', {
+                        theme: 'bootstrap-stars'
+                    });
+                });
+            }
+            $("#images").empty().append(html.join(''));
         }
+        
     });
-}
-;
+};
 
 function show_images() {
     $.ajax({
+        method:"POST",
         url: "http://127.0.0.1:8080/image-sharing-service/showImg",
         success: function (data) {
             var arr = data;
@@ -97,6 +118,7 @@ function show_images() {
 
 function read_image(id) {
     $.ajax({
+        method:"POST",
         url: "http://127.0.0.1:8080/image-sharing-service/image/" + id,
         success: function (data2) {
             var arr2 = JSON.parse(data2);
