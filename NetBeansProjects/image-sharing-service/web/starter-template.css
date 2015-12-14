@@ -77,7 +77,7 @@ body {
     text-align: center;
 }
 
-#searchForm {
+#searchTag {
     text-align: center;
     margin-right: 1em;
 }
@@ -102,7 +102,7 @@ button {
     padding: 0.75em 1em 0em 1em;
 }
 
-#searchForm input{
+#searchTag input{
     margin: 0.5em;
 }*
 

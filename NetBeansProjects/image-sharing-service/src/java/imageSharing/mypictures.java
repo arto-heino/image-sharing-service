@@ -56,6 +56,7 @@ public class mypictures extends HttpServlet {
             JsonArrayBuilder builder = Json.createArrayBuilder();
 
             for (Images i : (List<Images>) em.createQuery("SELECT i FROM Images i").getResultList()) {
+                
                 if(i.getFKowner().getId() == userId){
                 builder.add(Json.createObjectBuilder()
             .add("path", i.getPath())

@@ -29,7 +29,7 @@ function upload_image(){
 
   // Add the file to the request.
   formData.append('file', file, file.name);
-  $("#uploadFile").append(file.name);
+//  $("#uploadedFile").append(file.name);
 }
         
 
@@ -41,7 +41,7 @@ jQuery.ajax({
     processData: false,
     type: 'POST',
     success: function(data){
-        $("#uploadFile").empty().append(data);
+        $("#uploadedFile").empty().append(data);
     }
 });
 

@@ -79,8 +79,8 @@ function show_images() {
             var arr = data;
             var html = [];
             for (i = 0; i < arr.length; i++) {
-                html.push('<div class="col-lg-3 col-md-4 col-xs-12"><a href="#" onclick="read_image(' + arr[i].id + ');return false;" class="thumbnail">');
-                html.push('<img class="img-responsive imgSizing" src="images/' + arr[i].path + '" /></a>');
+                html.push('<div class="col-lg-3 col-md-4 col-xs-12 thumbnail"><a href="#" onclick="read_image(' + arr[i].id + ');return false;" class="thumbnail">');
+                html.push('<img class="img-responsive imgSizing portrait" src="images/' + arr[i].path + '" /></a>');
                 html.push('</div>');
             }
             $("#images").empty().append(html.join(''));
