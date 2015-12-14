@@ -34,6 +34,8 @@ Here is the current list of features ver 1.0
 - Show uploader below image
 - Show comments below image
 - Write comments to image (if logged in, you will be an commenter, otherwise it will be "anon")
+- Look up pictures you have been uploaded
+- Show the uploaded file name at frontpage
 ```
 
 ## Bugs
@@ -41,8 +43,6 @@ Here is the current list of features ver 1.0
 ```
 There are plenty of bugs in current version, here are some of them.
 
-- MyImages, giving a nullPointError when trying to parse images you have been uploaded
-- Frontpage "File" well, is not updating because of DOM-error
 - Frontpage "Tags" well, is not transfer user to correct position in Images
 - Password changing has not been tested yet :D
 ```
